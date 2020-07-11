@@ -1,5 +1,10 @@
 FROM node:12-slim
 
+### Original source : https://github.com/puppeteer/puppeteer/blob/v1.12.1/docs/troubleshooting.md#running-puppeteer-in-docker
+### Trouble Shootings
+### https://stackoverflow.com/questions/20909111/adding-gpg-key-inside-docker-container-causes-no-valid-openpgp-data-found
+### Add libralies is gnupg2, libxss1, ca-certificates, curl
+
 # See https://crbug.com/795759
 RUN apt-get update && apt-get install -yq \
     libgconf-2-4 \
@@ -11,7 +16,8 @@ RUN apt-get update && apt-get install -yq \
 # installs, work.
 RUN apt-get update && apt-get install -y \
     ca-certificates \
-    curl wget --no-install-recommends \
+    curl \
+    wget --no-install-recommends \
     && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
     && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
     && apt-get update \
